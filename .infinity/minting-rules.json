@@ -1,0 +1,90 @@
+{
+  "version": "1.0.0",
+  "rule_set": "TOKEN_MINTER_RULES",
+  
+  "token_types": {
+    "ALC": {
+      "name": "Andy Lian Coin",
+      "emoji": "💰",
+      "description": "Main currency of the ecosystem",
+      "transferable": true,
+      "mintable": true,
+      "burnable": false
+    },
+    "ART": {
+      "name": "Art Receipt Token",
+      "emoji": "🎨",
+      "description": "Proof of art creation or purchase",
+      "transferable": true,
+      "mintable": true,
+      "burnable": false
+    },
+    "FEATURE": {
+      "name": "Feature Unlock Token",
+      "emoji": "⚡",
+      "description": "Unlocks special features",
+      "transferable": false,
+      "mintable": true,
+      "burnable": true
+    },
+    "BADGE": {
+      "name": "Achievement Badge",
+      "emoji": "🏆",
+      "description": "Recognition for achievements",
+      "transferable": false,
+      "mintable": true,
+      "burnable": false
+    },
+    "PROOF": {
+      "name": "Proof of Contribution",
+      "emoji": "✅",
+      "description": "Evidence of ecosystem contribution",
+      "transferable": false,
+      "mintable": true,
+      "burnable": false
+    },
+    "RECEIPT": {
+      "name": "Purchase Receipt",
+      "emoji": "🧾",
+      "description": "Transaction proof token",
+      "transferable": false,
+      "mintable": true,
+      "burnable": false
+    }
+  },
+  
+  "token_structure": {
+    "required_fields": [
+      "id",
+      "type",
+      "timestamp",
+      "owner",
+      "value",
+      "metadata"
+    ],
+    "id_format": "unique_hash",
+    "timestamp_format": "ISO_8601",
+    "immutable": true
+  },
+  
+  "minting_rate_limits": {
+    "max_per_minute": 100,
+    "max_per_hour": 5000,
+    "max_per_day": 100000,
+    "cooldown_seconds": 1
+  },
+  
+  "validation_rules": {
+    "min_value": 0.0001,
+    "max_value": 1000000,
+    "require_owner": true,
+    "require_metadata": true,
+    "mongoose_validation": true
+  },
+  
+  "formulas": {
+    "mint_authority": "🪙MINT + 🧱Kris🔑 = Token Creation Authority",
+    "value_system": "⚪💰🎵 Value-based token system",
+    "storage_thread": "🗄️🧵📶 Memory thread storage"
+  }
+}

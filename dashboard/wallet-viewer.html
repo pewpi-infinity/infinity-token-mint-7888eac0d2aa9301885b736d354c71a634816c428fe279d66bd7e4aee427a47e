@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💼 Token Wallet Viewer</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #e6e6e6;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      background: linear-gradient(45deg, #ffd700, #00e5ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .wallet-header {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+      text-align: center;
+    }
+    
+    .wallet-address {
+      font-family: monospace;
+      font-size: 1.2rem;
+      color: #00e5ff;
+      margin-bottom: 20px;
+    }
+    
+    .balance-display {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #ffd700;
+      margin: 20px 0;
+    }
+    
+    .balance-label {
+      opacity: 0.7;
+      font-size: 1.2rem;
+    }
+    
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .tab {
+      padding: 15px 30px;
+      background: transparent;
+      border: none;
+      color: #e6e6e6;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      border-bottom: 3px solid transparent;
+    }
+    
+    .tab:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .tab.active {
+      border-bottom-color: #00e5ff;
+      color: #00e5ff;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    
+    .token-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .token-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 229, 255, 0.2);
+    }
+    
+    .token-icon {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    
+    .token-name {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #00e5ff;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    
+    .token-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #ffd700;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    
+    .token-details {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+    
+    .token-detail {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .history-item {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 3px solid #00e5ff;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 4px;
+    }
+    
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    
+    .history-type {
+      color: #ffd700;
+    }
+    
+    .history-date {
+      opacity: 0.7;
+      font-size: 0.9rem;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+    
+    .stat-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #ffd700;
+      margin-bottom: 5px;
+    }
+    
+    .stat-label {
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>💼 Token Wallet</h1>
+    
+    <div class="wallet-header">
+      <div class="balance-label">Total Balance</div>
+      <div class="balance-display" id="total-balance">0 ALC</div>
+      <div class="wallet-address" id="wallet-address">0x0000...0000</div>
+    </div>
+    
+    <div class="tabs">
+      <button class="tab active" data-tab="tokens">💰 Tokens</button>
+      <button class="tab" data-tab="history">📜 History</button>
+      <button class="tab" data-tab="stats">📊 Stats</button>
+    </div>
+    
+    <!-- Tokens Tab -->
+    <div class="tab-content active" id="tokens-tab">
+      <div class="token-grid" id="token-grid">
+        <!-- Tokens will be added here -->
+      </div>
+    </div>
+    
+    <!-- History Tab -->
+    <div class="tab-content" id="history-tab">
+      <div id="history-list">
+        <!-- History items will be added here -->
+      </div>
+    </div>
+    
+    <!-- Stats Tab -->
+    <div class="tab-content" id="stats-tab">
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-value" id="total-tokens">0</div>
+          <div class="stat-label">Total Tokens</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="earned-today">0</div>
+          <div class="stat-label">Earned Today</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="total-value">0</div>
+          <div class="stat-label">Total Value</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="token-types">0</div>
+          <div class="stat-label">Token Types</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Sample wallet data
+    const walletData = {
+      address: '0x7888eac0...27a47e',
+      tokens: [
+        { id: 1, type: 'ALC', emoji: '💰', name: 'Andy Lian Coin', value: 150, earned: '2026-01-01' },
+        { id: 2, type: 'ART', emoji: '🎨', name: 'Art Receipt Token', value: 25, earned: '2025-12-31' },
+        { id: 3, type: 'FEATURE', emoji: '⚡', name: 'Feature Unlock', value: 50, earned: '2025-12-30' },
+        { id: 4, type: 'BADGE', emoji: '🏆', name: 'Achievement Badge', value: 100, earned: '2025-12-29' }
+      ],
+      history: [
+        { type: 'Earned', amount: 150, token: 'ALC', trigger: 'user_contribution', date: '2026-01-01T10:00:00Z' },
+        { type: 'Earned', amount: 25, token: 'ART', trigger: 'purchase', date: '2025-12-31T15:30:00Z' },
+        { type: 'Earned', amount: 50, token: 'FEATURE', trigger: 'achievement', date: '2025-12-30T12:00:00Z' },
+        { type: 'Earned', amount: 100, token: 'BADGE', trigger: 'milestone', date: '2025-12-29T09:15:00Z' }
+      ]
+    };
+    
+    // Initialize wallet
+    function initWallet() {
+      document.getElementById('wallet-address').textContent = walletData.address;
+      
+      const totalBalance = walletData.tokens.reduce((sum, t) => sum + t.value, 0);
+      document.getElementById('total-balance').textContent = totalBalance + ' ALC';
+      
+      renderTokens();
+      renderHistory();
+      renderStats();
+    }
+    
+    // Render tokens
+    function renderTokens() {
+      const grid = document.getElementById('token-grid');
+      grid.innerHTML = '';
+      
+      walletData.tokens.forEach(token => {
+        const card = document.createElement('div');
+        card.className = 'token-card';
+        card.innerHTML = `
+          <div class="token-icon">${token.emoji}</div>
+          <div class="token-name">${token.name}</div>
+          <div class="token-value">${token.value}</div>
+          <div class="token-details">
+            <div class="token-detail">
+              <span>Type:</span>
+              <span>${token.type}</span>
+            </div>
+            <div class="token-detail">
+              <span>Earned:</span>
+              <span>${token.earned}</span>
+            </div>
+            <div class="token-detail">
+              <span>ID:</span>
+              <span>#${token.id}</span>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+    
+    // Render history
+    function renderHistory() {
+      const list = document.getElementById('history-list');
+      list.innerHTML = '';
+      
+      walletData.history.forEach(item => {
+        const historyItem = document.createElement('div');
+        historyItem.className = 'history-item';
+        historyItem.innerHTML = `
+          <div class="history-header">
+            <span class="history-type">${item.type} ${item.amount} ${item.token}</span>
+            <span class="history-date">${new Date(item.date).toLocaleString()}</span>
+          </div>
+          <div>Trigger: ${item.trigger}</div>
+        `;
+        list.appendChild(historyItem);
+      });
+    }
+    
+    // Render stats
+    function renderStats() {
+      const totalTokens = walletData.tokens.length;
+      const totalValue = walletData.tokens.reduce((sum, t) => sum + t.value, 0);
+      const tokenTypes = new Set(walletData.tokens.map(t => t.type)).size;
+      const earnedToday = walletData.history
+        .filter(h => new Date(h.date).toDateString() === new Date().toDateString())
+        .reduce((sum, h) => sum + h.amount, 0);
+      
+      document.getElementById('total-tokens').textContent = totalTokens;
+      document.getElementById('earned-today').textContent = earnedToday;
+      document.getElementById('total-value').textContent = totalValue;
+      document.getElementById('token-types').textContent = tokenTypes;
+    }
+    
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabName = tab.dataset.tab;
+        
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        
+        tab.classList.add('active');
+        document.getElementById(tabName + '-tab').classList.add('active');
+      });
+    });
+    
+    // Initialize on load
+    initWallet();
+  </script>
+</body>
+</html>

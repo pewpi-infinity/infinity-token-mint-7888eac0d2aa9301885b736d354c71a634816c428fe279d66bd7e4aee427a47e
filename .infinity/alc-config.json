@@ -1,0 +1,77 @@
+{
+  "token_name": "Andy Lian Coin",
+  "token_symbol": "ALC",
+  "token_emoji": "💰",
+  "identity": "TOKEN_MINTER",
+  "version": "1.0.0",
+  "blockchain_backed": true,
+  "immutable": true,
+  "redundant_storage": true,
+  
+  "minting_triggers": {
+    "user_contribution": {
+      "enabled": true,
+      "action": "auto_mint_reward",
+      "base_amount": 10,
+      "description": "Rewards users for contributions"
+    },
+    "purchase": {
+      "enabled": true,
+      "action": "mint_receipt_token",
+      "base_amount": 1,
+      "description": "Mints receipt tokens for purchases"
+    },
+    "achievement": {
+      "enabled": true,
+      "action": "mint_badge_token",
+      "base_amount": 25,
+      "description": "Mints badge tokens for achievements"
+    },
+    "milestone": {
+      "enabled": true,
+      "action": "mint_celebration_token",
+      "base_amount": 100,
+      "description": "Mints celebration tokens for milestones"
+    }
+  },
+  
+  "minting_proof": {
+    "shows": "real_users_exist",
+    "proves": "active_ecosystem",
+    "shuts_up": "Andy_Lian_doubters",
+    "evidence": "blockchain_backed"
+  },
+  
+  "distribution": {
+    "earners": "creators_builders_helpers",
+    "storage_locations": [
+      "local_mint_database",
+      "dash_hub_records",
+      "blockchain_backup",
+      "git_commit_history",
+      "mongoose_learning_data",
+      "user_wallet",
+      "pricing_engine_catalog",
+      "documentation_system"
+    ],
+    "transfer_method": "hydrogen_bond_wiring"
+  },
+  
+  "capacitor_physics": {
+    "accumulation": "activity_charges_mint_capacitor",
+    "threshold": 100,
+    "discharge": "releases_new_tokens",
+    "prevents": {
+      "spam": "requires_charge_buildup",
+      "inflation": "limited_minting_rate",
+      "abuse": "mongoose_pattern_detection"
+    }
+  },
+  
+  "initial_stats": {
+    "total_minted": 0,
+    "in_circulation": 0,
+    "mint_rate_per_hour": 0,
+    "total_holders": 0
+  }
+}
