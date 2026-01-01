@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💰 Token Minting Interface</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #0b0b0b 0%, #1a1a2e 100%);
+      color: #e6e6e6;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      background: linear-gradient(45deg, #00e5ff, #ffd700);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .card h2 {
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+      color: #00e5ff;
+    }
+    
+    .stat {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .stat:last-child {
+      border-bottom: none;
+    }
+    
+    .stat-label {
+      opacity: 0.7;
+    }
+    
+    .stat-value {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #ffd700;
+    }
+    
+    .capacitor {
+      width: 100%;
+      height: 30px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+      overflow: hidden;
+      margin-top: 10px;
+      position: relative;
+    }
+    
+    .capacitor-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00e5ff, #ffd700);
+      width: 0%;
+      transition: width 0.5s ease;
+      border-radius: 15px;
+    }
+    
+    .capacitor-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: white;
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+    
+    .mint-button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      background: linear-gradient(45deg, #00e5ff, #ffd700);
+      color: #0b0b0b;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .mint-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(0, 229, 255, 0.4);
+    }
+    
+    .mint-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .token-feed {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .token-item {
+      background: rgba(0, 229, 255, 0.1);
+      border-left: 3px solid #00e5ff;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      animation: slideIn 0.3s ease;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    .token-item-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    
+    .token-type {
+      font-weight: bold;
+      color: #ffd700;
+    }
+    
+    .token-time {
+      opacity: 0.7;
+      font-size: 0.9rem;
+    }
+    
+    .mrw-terminal {
+      background: rgba(255, 0, 0, 0.1);
+      border: 2px solid #ff0000;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .mrw-terminal::before {
+      content: '🍄';
+      position: absolute;
+      font-size: 100px;
+      opacity: 0.1;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .mrw-display {
+      font-size: 3rem;
+      margin: 20px 0;
+      animation: bounce 1s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .boost-button {
+      background: linear-gradient(45deg, #ff0000, #ff6600);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .boost-button:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 5px 20px rgba(255, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>💰 Infinity Token Minting Dashboard</h1>
+    
+    <div class="dashboard-grid">
+      <!-- ALC Minting Stats -->
+      <div class="card">
+        <h2>💰 Andy Lian Coin</h2>
+        <div class="stat">
+          <span class="stat-label">Total Minted:</span>
+          <span class="stat-value" id="total-minted">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">In Circulation:</span>
+          <span class="stat-value" id="in-circulation">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Mint Rate:</span>
+          <span class="stat-value" id="mint-rate">0/hour</span>
+        </div>
+      </div>
+      
+      <!-- Capacitor Status -->
+      <div class="card">
+        <h2>🧲 Capacitor Status</h2>
+        <div class="stat">
+          <span class="stat-label">Charge Level:</span>
+          <span class="stat-value" id="charge-level">0%</span>
+        </div>
+        <div class="capacitor">
+          <div class="capacitor-fill" id="capacitor-fill"></div>
+          <div class="capacitor-label" id="capacitor-label">0%</div>
+        </div>
+        <button class="mint-button" id="mint-button" disabled>
+          ⚡ Mint Token (Charging...)
+        </button>
+      </div>
+      
+      <!-- Token Types -->
+      <div class="card">
+        <h2>🏭 Token Factory</h2>
+        <div class="stat">
+          <span class="stat-label">💰 ALC:</span>
+          <span class="stat-value" id="alc-count">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">🎨 ART:</span>
+          <span class="stat-value" id="art-count">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">⚡ FEATURE:</span>
+          <span class="stat-value" id="feature-count">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">🏆 BADGE:</span>
+          <span class="stat-value" id="badge-count">0</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- MRW Terminal -->
+    <div class="mrw-terminal">
+      <h2>🚗 MRW Minting Terminal</h2>
+      <div class="mrw-display">🍄 🚗 💰</div>
+      <p>Mario delivers your tokens!</p>
+      <button class="boost-button" id="mushroom-boost">
+        🍄 MUSHROOM BOOST
+      </button>
+    </div>
+    
+    <!-- Live Token Feed -->
+    <div style="margin-top: 30px;">
+      <h2 style="color: #00e5ff; margin-bottom: 15px;">📡 Live Token Feed</h2>
+      <div class="token-feed" id="token-feed">
+        <p style="opacity: 0.5; text-align: center;">Waiting for minted tokens...</p>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Simulated minting system
+    let capacitorCharge = 0;
+    let totalMinted = 0;
+    let inCirculation = 0;
+    let tokenCounts = { ALC: 0, ART: 0, FEATURE: 0, BADGE: 0 };
+    let mintRate = 0;
+    
+    // Update capacitor display
+    function updateCapacitor() {
+      const fill = document.getElementById('capacitor-fill');
+      const label = document.getElementById('capacitor-label');
+      const chargeLevel = document.getElementById('charge-level');
+      const mintButton = document.getElementById('mint-button');
+      
+      fill.style.width = capacitorCharge + '%';
+      label.textContent = Math.round(capacitorCharge) + '%';
+      chargeLevel.textContent = Math.round(capacitorCharge) + '%';
+      
+      if (capacitorCharge >= 100) {
+        mintButton.disabled = false;
+        mintButton.textContent = '⚡ MINT TOKEN NOW!';
+      } else {
+        mintButton.disabled = true;
+        mintButton.textContent = `⚡ Charging... (${Math.round(capacitorCharge)}%)`;
+      }
+    }
+    
+    // Charge capacitor over time
+    setInterval(() => {
+      if (capacitorCharge < 100) {
+        capacitorCharge += Math.random() * 5;
+        if (capacitorCharge > 100) capacitorCharge = 100;
+        updateCapacitor();
+      }
+    }, 1000);
+    
+    // Mint token
+    document.getElementById('mint-button').addEventListener('click', () => {
+      if (capacitorCharge >= 100) {
+        mintToken('user_contribution');
+        capacitorCharge = Math.max(0, capacitorCharge - 20);
+        updateCapacitor();
+      }
+    });
+    
+    // Mushroom boost
+    document.getElementById('mushroom-boost').addEventListener('click', () => {
+      const button = document.getElementById('mushroom-boost');
+      button.textContent = '🍄 Mama mia!';
+      capacitorCharge = 100;
+      updateCapacitor();
+      
+      // Mint 5 tokens
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => mintToken('achievement'), i * 200);
+      }
+      
+      setTimeout(() => {
+        button.textContent = '🍄 MUSHROOM BOOST';
+      }, 2000);
+    });
+    
+    // Mint token function
+    function mintToken(trigger) {
+      const types = ['ALC', 'ART', 'FEATURE', 'BADGE'];
+      const type = types[Math.floor(Math.random() * types.length)];
+      const value = Math.floor(Math.random() * 50) + 10;
+      
+      totalMinted += value;
+      inCirculation += value;
+      tokenCounts[type]++;
+      mintRate++;
+      
+      // Update stats
+      document.getElementById('total-minted').textContent = totalMinted.toLocaleString();
+      document.getElementById('in-circulation').textContent = inCirculation.toLocaleString();
+      document.getElementById('mint-rate').textContent = mintRate + '/hour';
+      
+      document.getElementById('alc-count').textContent = tokenCounts.ALC;
+      document.getElementById('art-count').textContent = tokenCounts.ART;
+      document.getElementById('feature-count').textContent = tokenCounts.FEATURE;
+      document.getElementById('badge-count').textContent = tokenCounts.BADGE;
+      
+      // Add to feed
+      addToFeed(type, value, trigger);
+    }
+    
+    // Add token to feed
+    function addToFeed(type, value, trigger) {
+      const feed = document.getElementById('token-feed');
+      const emoji = { ALC: '💰', ART: '🎨', FEATURE: '⚡', BADGE: '🏆' };
+      
+      const item = document.createElement('div');
+      item.className = 'token-item';
+      item.innerHTML = `
+        <div class="token-item-header">
+          <span class="token-type">${emoji[type]} ${type} Token</span>
+          <span class="token-time">${new Date().toLocaleTimeString()}</span>
+        </div>
+        <div>Value: ${value} | Trigger: ${trigger}</div>
+      `;
+      
+      feed.insertBefore(item, feed.firstChild);
+      
+      // Keep only last 20 items
+      while (feed.children.length > 20) {
+        feed.removeChild(feed.lastChild);
+      }
+    }
+    
+    // Initial update
+    updateCapacitor();
+  </script>
+</body>
+</html>

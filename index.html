@@ -10,13 +10,12 @@
       background: #0b0b0b;
       color: #e6e6e6;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+      padding: 20px;
+      min-height: 100vh;
     }
     .wrap {
       text-align: center;
+      margin-bottom: 40px;
     }
     h1 {
       font-size: 3rem;
@@ -29,12 +28,369 @@
     .dot {
       color: #00e5ff;
     }
+    
+    /* Token Minting Dashboard Styles */
+    .minting-dashboard {
+      max-width: 1400px;
+      margin: 40px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    
+    .dashboard-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .dashboard-card h2 {
+      margin: 0 0 15px 0;
+      font-size: 1.5rem;
+      color: #00e5ff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+    
+    .stat-label {
+      opacity: 0.7;
+    }
+    
+    .stat-value {
+      font-weight: bold;
+      color: #ffd700;
+      font-size: 1.1rem;
+    }
+    
+    .capacitor-container {
+      margin-top: 15px;
+    }
+    
+    .capacitor-bar {
+      width: 100%;
+      height: 30px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+      margin: 10px 0;
+    }
+    
+    .capacitor-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00e5ff, #ffd700);
+      width: 0%;
+      transition: width 0.5s ease;
+      border-radius: 15px;
+    }
+    
+    .capacitor-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+    }
+    
+    .mint-btn {
+      width: 100%;
+      padding: 15px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      background: linear-gradient(45deg, #00e5ff, #ffd700);
+      color: #0b0b0b;
+      transition: all 0.3s;
+    }
+    
+    .mint-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(0, 229, 255, 0.4);
+    }
+    
+    .mint-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .mrw-terminal {
+      grid-column: 1 / -1;
+      background: rgba(255, 0, 0, 0.1);
+      border: 2px solid #ff0000;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .mrw-terminal::before {
+      content: '🍄';
+      position: absolute;
+      font-size: 120px;
+      opacity: 0.05;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .mrw-display {
+      font-size: 4rem;
+      margin: 20px 0;
+      animation: bounce 1s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .boost-btn {
+      background: linear-gradient(45deg, #ff0000, #ff6600);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      border-radius: 8px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 15px;
+    }
+    
+    .boost-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 30px rgba(255, 0, 0, 0.5);
+    }
+    
+    .token-feed {
+      grid-column: 1 / -1;
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 10px;
+    }
+    
+    .token-item {
+      background: rgba(0, 229, 255, 0.1);
+      border-left: 3px solid #00e5ff;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      animation: slideIn 0.3s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    .token-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .token-emoji {
+      font-size: 2rem;
+    }
+    
+    .token-details h4 {
+      margin: 0;
+      color: #ffd700;
+    }
+    
+    .token-details p {
+      margin: 5px 0 0 0;
+      font-size: 0.9rem;
+    }
+    
+    .token-time {
+      opacity: 0.7;
+      font-size: 0.85rem;
+    }
+    
+    .wallet-section {
+      grid-column: 1 / -1;
+      background: rgba(255, 215, 0, 0.1);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      text-align: center;
+    }
+    
+    .wallet-balance {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #ffd700;
+      margin: 10px 0;
+    }
+    
+    .view-wallet-btn {
+      background: rgba(255, 215, 0, 0.2);
+      border: 1px solid #ffd700;
+      color: #ffd700;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    
+    .view-wallet-btn:hover {
+      background: rgba(255, 215, 0, 0.3);
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <h1>∞ Infinity<span class="dot">.</span></h1>
-    <p>GitHub Pages online</p>
+    <p>🪙 Token Minter Machine + Andy Lian Coin System</p>
+  </div>
+  
+  <!-- Token Minting Dashboard -->
+  <div class="minting-dashboard">
+    
+    <!-- ALC Minting Stats -->
+    <section class="dashboard-card">
+      <h2>💰 Andy Lian Coin Mint</h2>
+      <div class="stat-row">
+        <span class="stat-label">Total ALC:</span>
+        <span class="stat-value" id="total-alc">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">In Circulation:</span>
+        <span class="stat-value" id="in-circulation">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Minting Rate:</span>
+        <span class="stat-value" id="mint-rate">0/hour</span>
+      </div>
+    </section>
+    
+    <!-- Capacitor Status -->
+    <section class="dashboard-card">
+      <h2>🧲 Capacitor Physics</h2>
+      <div class="stat-row">
+        <span class="stat-label">Charge Level:</span>
+        <span class="stat-value" id="charge-level">0%</span>
+      </div>
+      <div class="capacitor-container">
+        <div class="capacitor-bar">
+          <div class="capacitor-fill" id="capacitor-fill"></div>
+          <div class="capacitor-text" id="capacitor-text">0%</div>
+        </div>
+      </div>
+      <button class="mint-btn" id="mint-button" disabled>
+        ⚡ Charging Capacitor...
+      </button>
+    </section>
+    
+    <!-- Token Types -->
+    <section class="dashboard-card">
+      <h2>🏭 Token Factory</h2>
+      <div class="stat-row">
+        <span class="stat-label">💰 ALC:</span>
+        <span class="stat-value" id="alc-count">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">🎨 ART:</span>
+        <span class="stat-value" id="art-count">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">⚡ FEATURE:</span>
+        <span class="stat-value" id="feature-count">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">🏆 BADGE:</span>
+        <span class="stat-value" id="badge-count">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">✅ PROOF:</span>
+        <span class="stat-value" id="proof-count">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">🧾 RECEIPT:</span>
+        <span class="stat-value" id="receipt-count">0</span>
+      </div>
+    </section>
+    
+    <!-- Your Wallet -->
+    <section class="dashboard-card wallet-section">
+      <h2>💼 Your Wallet</h2>
+      <div class="wallet-balance" id="wallet-balance">0 ALC</div>
+      <p>Total tokens earned</p>
+      <a href="dashboard/wallet-viewer.html" class="view-wallet-btn">
+        👁️ View Full Wallet
+      </a>
+    </section>
+    
+    <!-- MRW Minting Terminal -->
+    <section class="mrw-terminal">
+      <h2>🚗 MRW Minting Terminal</h2>
+      <div class="mrw-display">🍄 🚗 💰</div>
+      <p style="font-size: 1.2rem; margin: 10px 0;">
+        Mario → "Mama mia! New token!"<br>
+        Car delivers minted token · Mushroom = batch boost
+      </p>
+      <button class="boost-btn" id="mushroom-boost">
+        🍄 MUSHROOM BOOST
+      </button>
+    </section>
+    
+    <!-- Recent Mints Feed -->
+    <section class="dashboard-card" style="grid-column: 1 / -1;">
+      <h2>📡 Recent Mints</h2>
+      <div class="token-feed" id="token-feed">
+        <p style="opacity: 0.5; text-align: center; padding: 20px;">
+          Waiting for tokens to be minted...<br>
+          <small>Capacitor charging automatically from page activity</small>
+        </p>
+      </div>
+    </section>
+    
+    <!-- Links to Other Dashboards -->
+    <section class="dashboard-card" style="grid-column: 1 / -1; text-align: center;">
+      <h2>🔗 Full Dashboards</h2>
+      <div style="display: flex; gap: 15px; justify-content: center; margin-top: 15px; flex-wrap: wrap;">
+        <a href="dashboard/minting-interface.html" class="view-wallet-btn">
+          🏭 Full Minting Interface
+        </a>
+        <a href="dashboard/wallet-viewer.html" class="view-wallet-btn">
+          💼 Wallet Viewer
+        </a>
+      </div>
+    </section>
+    
   </div>
 </body>
 <!-- C13B0_CHAT_WIDGET_BEGIN -->
@@ -146,6 +502,293 @@
 
   send.addEventListener("click", ask);
   input.addEventListener("keydown",(e)=>{ if(e.key==="Enter") ask(); });
+})();
+</script>
+
+<!-- Token Minting System JavaScript -->
+<script>
+(function() {
+  // Token Minting State
+  let capacitorCharge = 0;
+  let totalALC = 0;
+  let inCirculation = 0;
+  let walletBalance = 0;
+  let mintRate = 0;
+  let tokenCounts = {
+    ALC: 0,
+    ART: 0,
+    FEATURE: 0,
+    BADGE: 0,
+    PROOF: 0,
+    RECEIPT: 0
+  };
+  let recentMints = [];
+  
+  // Token type emojis
+  const tokenEmojis = {
+    ALC: '💰',
+    ART: '🎨',
+    FEATURE: '⚡',
+    BADGE: '🏆',
+    PROOF: '✅',
+    RECEIPT: '🧾'
+  };
+  
+  // Update capacitor display
+  function updateCapacitor() {
+    const fill = document.getElementById('capacitor-fill');
+    const text = document.getElementById('capacitor-text');
+    const level = document.getElementById('charge-level');
+    const button = document.getElementById('mint-button');
+    
+    if (!fill || !text || !level || !button) return;
+    
+    const chargePercent = Math.min(100, capacitorCharge);
+    fill.style.width = chargePercent + '%';
+    text.textContent = Math.round(chargePercent) + '%';
+    level.textContent = Math.round(chargePercent) + '%';
+    
+    if (chargePercent >= 100) {
+      button.disabled = false;
+      button.textContent = '⚡ MINT TOKEN NOW!';
+      button.style.animation = 'pulse 1s infinite';
+    } else {
+      button.disabled = true;
+      button.textContent = `⚡ Charging... (${Math.round(chargePercent)}%)`;
+      button.style.animation = 'none';
+    }
+  }
+  
+  // Charge capacitor from activity
+  function chargeCapacitor(amount = 2) {
+    capacitorCharge = Math.min(100, capacitorCharge + amount);
+    updateCapacitor();
+  }
+  
+  // Discharge capacitor after minting
+  function dischargeCapacitor() {
+    capacitorCharge = Math.max(0, capacitorCharge - 20);
+    updateCapacitor();
+  }
+  
+  // Mint a token
+  function mintToken(type = 'ALC', trigger = 'user_contribution') {
+    const amount = Math.floor(Math.random() * 50) + 10;
+    
+    // Create token
+    const token = {
+      id: generateTokenId(),
+      type: type,
+      emoji: tokenEmojis[type],
+      value: amount,
+      trigger: trigger,
+      timestamp: new Date().toISOString(),
+      owner: 'user'
+    };
+    
+    // Update stats
+    totalALC += amount;
+    inCirculation += amount;
+    walletBalance += amount;
+    tokenCounts[type]++;
+    mintRate++;
+    
+    // Add to recent mints
+    recentMints.unshift(token);
+    if (recentMints.length > 10) {
+      recentMints = recentMints.slice(0, 10);
+    }
+    
+    // Update display
+    updateStats();
+    addToFeed(token);
+    
+    // Play coin sound effect (visual feedback)
+    showMintAnimation();
+    
+    // Discharge capacitor
+    dischargeCapacitor();
+    
+    return token;
+  }
+  
+  // Generate token ID
+  function generateTokenId() {
+    return `TOKEN_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+  }
+  
+  // Update statistics display
+  function updateStats() {
+    const updateElement = (id, value) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    };
+    
+    updateElement('total-alc', totalALC.toLocaleString());
+    updateElement('in-circulation', inCirculation.toLocaleString());
+    updateElement('mint-rate', mintRate + '/hour');
+    updateElement('wallet-balance', walletBalance.toLocaleString() + ' ALC');
+    
+    updateElement('alc-count', tokenCounts.ALC);
+    updateElement('art-count', tokenCounts.ART);
+    updateElement('feature-count', tokenCounts.FEATURE);
+    updateElement('badge-count', tokenCounts.BADGE);
+    updateElement('proof-count', tokenCounts.PROOF);
+    updateElement('receipt-count', tokenCounts.RECEIPT);
+  }
+  
+  // Add token to feed
+  function addToFeed(token) {
+    const feed = document.getElementById('token-feed');
+    if (!feed) return;
+    
+    // Clear placeholder if exists
+    if (feed.querySelector('p')) {
+      feed.innerHTML = '';
+    }
+    
+    const item = document.createElement('div');
+    item.className = 'token-item';
+    
+    const time = new Date(token.timestamp);
+    const timeStr = time.toLocaleTimeString();
+    
+    item.innerHTML = `
+      <div class="token-info">
+        <span class="token-emoji">${token.emoji}</span>
+        <div class="token-details">
+          <h4>${token.type} Token</h4>
+          <p>Value: ${token.value} · Trigger: ${token.trigger}</p>
+        </div>
+      </div>
+      <div class="token-time">${timeStr}</div>
+    `;
+    
+    feed.insertBefore(item, feed.firstChild);
+    
+    // Keep only last 10 items
+    while (feed.children.length > 10) {
+      feed.removeChild(feed.lastChild);
+    }
+  }
+  
+  // Show mint animation
+  function showMintAnimation() {
+    const display = document.querySelector('.mrw-display');
+    if (!display) return;
+    
+    display.textContent = '💰 🎉 💰';
+    setTimeout(() => {
+      display.textContent = '🍄 🚗 💰';
+    }, 500);
+  }
+  
+  // Mint button handler
+  const mintButton = document.getElementById('mint-button');
+  if (mintButton) {
+    mintButton.addEventListener('click', () => {
+      if (capacitorCharge >= 100) {
+        const types = ['ALC', 'ART', 'FEATURE', 'BADGE', 'PROOF', 'RECEIPT'];
+        const type = types[Math.floor(Math.random() * types.length)];
+        mintToken(type, 'manual_mint');
+      }
+    });
+  }
+  
+  // Mushroom boost handler
+  const mushroomButton = document.getElementById('mushroom-boost');
+  if (mushroomButton) {
+    mushroomButton.addEventListener('click', () => {
+      mushroomButton.textContent = '🍄 Mama mia! Processing...';
+      mushroomButton.disabled = true;
+      
+      // Instantly charge capacitor
+      capacitorCharge = 100;
+      updateCapacitor();
+      
+      // Mint multiple tokens with delay
+      const types = ['ALC', 'ART', 'FEATURE', 'BADGE', 'PROOF', 'RECEIPT'];
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+          const type = types[Math.floor(Math.random() * types.length)];
+          mintToken(type, 'mushroom_boost');
+        }, i * 300);
+      }
+      
+      // Re-enable button
+      setTimeout(() => {
+        mushroomButton.textContent = '🍄 MUSHROOM BOOST';
+        mushroomButton.disabled = false;
+      }, 2000);
+    });
+  }
+  
+  // Auto-charge capacitor from page activity
+  function autoCharge() {
+    if (capacitorCharge < 100) {
+      chargeCapacitor(Math.random() * 3);
+    }
+  }
+  
+  // Charge from mouse movement
+  let lastMouseMove = 0;
+  document.addEventListener('mousemove', (e) => {
+    const now = Date.now();
+    if (now - lastMouseMove > 500) {
+      chargeCapacitor(1);
+      lastMouseMove = now;
+    }
+  });
+  
+  // Charge from scroll
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const now = Date.now();
+    if (now - lastScroll > 500) {
+      chargeCapacitor(1.5);
+      lastScroll = now;
+    }
+  });
+  
+  // Charge from clicks
+  document.addEventListener('click', () => {
+    chargeCapacitor(2);
+  });
+  
+  // Auto-charge timer (1% per second)
+  setInterval(autoCharge, 1000);
+  
+  // Auto-mint when capacitor is full for 5 seconds
+  let fullTime = 0;
+  setInterval(() => {
+    if (capacitorCharge >= 100) {
+      fullTime++;
+      if (fullTime >= 5) {
+        mintToken('ALC', 'auto_mint');
+        fullTime = 0;
+      }
+    } else {
+      fullTime = 0;
+    }
+  }, 1000);
+  
+  // Initial update
+  updateCapacitor();
+  updateStats();
+  
+  // Add pulse animation style
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  console.log('🪙 Token Minter Machine initialized');
+  console.log('💰 Andy Lian Coin system ready');
+  console.log('🧲 Capacitor physics active');
 })();
 </script>
 <!-- C13B0_CHAT_WIDGET_END -->
